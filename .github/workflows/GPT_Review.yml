@@ -17,21 +17,17 @@ jobs:
     # Add steps for installing dependencies if necessary
 
     - name: Get List of Changed Files
-      id: files
-      run: |
-        echo "Files changed in this commit:"
-        if [ "${{ github.event_name }}" == "pull_request" ]; then
-          changed_files=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | xargs)
-        else
-          changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | xargs)
-        fi
-        echo $changed_files
-        echo "changed_files=${changed_files}" >> $GITHUB_ENV
+      uses: jitterbit/get-changed-files@v1
+      with:
+       format: 'space-delimited'
+ 
 
 
     - name: Prepare and Send Each File to API
-      run: |
-        for file in ${{ steps.files.outputs.changed_files }}
+      id: files
+      uses: jitterbit/get-changed-files@v1
+    - run: |
+        for file in ${{ steps.files.outputs.all }}
         do
           echo "Processing file: $file"
           json_payload=$(python scripts/create_payload.py "$file")
@@ -47,4 +43,4 @@ jobs:
             echo "GEQI Score for $file is below the acceptable threshold."
             exit 1
           fi
-        done
+        done    
