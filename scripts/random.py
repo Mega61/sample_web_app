@@ -24,7 +24,7 @@ def calculate():
 def read_file():
     file = open("/path/to/your/file.txt", "r")
     data = file.read()
-    print(data + 2)
+    print(data)
     file.close()
 
 if __name__ == "__main__":
