@@ -20,9 +20,13 @@ jobs:
       id: files
       run: |
         echo "Files changed in this commit:"
-        changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | xargs)
+        if [ "${{ github.event_name }}" == "pull_request" ]; then
+          changed_files=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | xargs)
+        else
+          changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | xargs)
+        fi
         echo $changed_files
-        echo "::set-output name=changed_files::${changed_files}"
+        echo "changed_files=${changed_files}" >> $GITHUB_ENV
 
 
     - name: Prepare and Send Each File to API
