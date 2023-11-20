@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [18.x]
 
     steps:
     - name: Checkout sample_front_end
@@ -44,15 +44,31 @@ jobs:
       run: |
         cd ${{ env.REPO_OWNER }}/sample_web_app
         npm ci
-        npm run dev
+        npm run dev &
       env:
         CI: true
+
+    - name: Setup .env for microservice_1
+      run: |
+        echo "${{ secrets.ENV_CONTENT }}" > ${{ env.REPO_OWNER }}/sample_weather_microservice/.env
+      
+
+    - name: Check if .env file was created and view its contents
+      run: |
+        cd ${{ env.REPO_OWNER }}/sample_weather_microservice
+        if ls | grep .env; then
+          echo ".env file exists!"
+          cat .env
+        else
+          echo ".env file does not exist!"
+        fi
 
     - name: Install dependencies and start back_end
       run: |
         cd ${{ env.REPO_OWNER }}/sample_weather_microservice
         npm ci
         npm run dev &
+        curl -f http://127.0.0.1:3000/about
       env:
         CI: true
 

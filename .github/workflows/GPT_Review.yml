@@ -1,0 +1,46 @@
+name: Code Review Workflow
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  code_review:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # Add steps for installing dependencies if necessary
+
+    - name: Get List of Changed Files
+      id: files
+      run: |
+        echo "Files changed in this commit:"
+        changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | xargs)
+        echo $changed_files
+        echo "::set-output name=changed_files::${changed_files}"
+
+
+    - name: Prepare and Send Each File to API
+      run: |
+        for file in ${{ steps.files.outputs.changed_files }}
+        do
+          echo "Processing file: $file"
+          json_payload=$(jq -Rs --arg code "$(cat "$file")" '{"code": $code}')
+          echo "Payload is created"
+          response=$(curl --location --request POST 'http://127.0.0.1:5000/review_code' \
+                    --header 'Content-Type: application/json' \
+                    --data "$json_payload")
+          echo "API Response for $file: $response"
+          geqi=$(echo $response | jq .geqi)
+          recommendations=$(echo $response | jq .recommendations)
+
+          if [[ $geqi -lt 70 ]]; then
+            echo "GEQI Score for $file is below the acceptable threshold."
+            exit 1
+          fi
+        done
