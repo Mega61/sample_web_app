@@ -30,9 +30,9 @@ jobs:
         for file in ${{ steps.files.outputs.changed_files }}
         do
           echo "Processing file: $file"
-          json_payload=$(jq -Rs --arg code "$(cat "$file")" '{"code": $code}')
+          json_payload=$(python scripts/create_payload.py "$file")
           echo "Payload is created"
-          response=$(curl --location --request POST 'http://127.0.0.1:5000/review_code' \
+          response=$(curl --location --request POST '${{ secrets.TUNNEL_URL }}' \
                     --header 'Content-Type: application/json' \
                     --data "$json_payload")
           echo "API Response for $file: $response"
