@@ -42,6 +42,7 @@ export default function Home() {
 
   return (
     <div className="container mx-auto p-4">
+      <p>Test</p>
       <section className="bg-white p-6 rounded-lg shadow mt-4">
         <h2 className="text-xl text-black font-semibold mb-4">Weather App</h2>
 
