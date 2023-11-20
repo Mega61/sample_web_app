@@ -21,9 +21,9 @@ jobs:
       run: |
         echo "Files changed in this commit:"
         if [ "${{ github.event_name }}" == "pull_request" ]; then
-          changed_files=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | xargs)
+          changed_files=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | xargs)
         else
-          changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | xargs)
+          changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | xargs)
         fi
         echo $changed_files
         echo "changed_files=${changed_files}" >> $GITHUB_ENV
