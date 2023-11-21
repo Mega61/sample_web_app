@@ -17,72 +17,65 @@ jobs:
         node-version: [18.x]
 
     steps:
-    - name: Checkout sample_front_end
-      uses: actions/checkout@v2
-      with:
-        repository: ${{ env.REPO_OWNER }}/sample_web_app
-        path: ${{ env.REPO_OWNER }}/sample_web_app
+    # - name: Checkout sample_front_end
+    #   uses: actions/checkout@v2
+    #   with:
+    #     repository: ${{ env.REPO_OWNER }}/sample_web_app
+    #     path: ${{ env.REPO_OWNER }}/sample_web_app
 
-    - name: Checkout microservice_1
-      uses: actions/checkout@v2
-      with:
-        repository: ${{ env.REPO_OWNER }}/sample_weather_microservice
-        path: ${{ env.REPO_OWNER }}/sample_weather_microservice
+    # - name: Checkout microservice_1
+    #   uses: actions/checkout@v2
+    #   with:
+    #     repository: ${{ env.REPO_OWNER }}/sample_weather_microservice
+    #     path: ${{ env.REPO_OWNER }}/sample_weather_microservice
 
-    - name: Checkout microservice_2
-      uses: actions/checkout@v2
-      with:
-        repository: ${{ env.REPO_OWNER }}/sample_location_microservice
-        path: ${{ env.REPO_OWNER }}/sample_location_microservice
+    # - name: Checkout microservice_2
+    #   uses: actions/checkout@v2
+    #   with:
+    #     repository: ${{ env.REPO_OWNER }}/sample_location_microservice
+    #     path: ${{ env.REPO_OWNER }}/sample_location_microservice
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-
-    - name: Parse and Export Environment Variables from Secret
-      run: |
-       chmod +x parse-secret.sh
-       ./parse-secret.sh "${{ secrets.YOUR_ENV_SECRET }}"
-
-    - name: Make envfile
-      uses: SpicyPizza/create-envfile@v2.0
-      with:
-        # envkey_SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        # directory: <directory_name>
-        fail_on_empty: true
-
-    - name: Install dependencies and start front_end
-      run: |
-        cd ${{ env.REPO_OWNER }}/sample_web_app
-        npm ci
-        npm run dev &
-      env:
-        CI: true
+    # - name: Use Node.js ${{ matrix.node-version }}
+    #   uses: actions/setup-node@v2
+    #   with:
+    #     node-version: ${{ matrix.node-version }}
 
     - name: Setup .env for microservice_1
       run: |
-        echo "${{ secrets.ENV_CONTENT }}" > ${{ env.REPO_OWNER }}/sample_weather_microservice/.env
-      
-
-    - name: Check if .env file was created and view its contents
+        # echo "${{ secrets.ENV_FILE }}" > ${{ env.REPO_OWNER }}/sample_weather_microservice/.env
+        echo "${{ secrets.ENV_FILE }}" > .env
+        
+    - name: List all files in the current directory
       run: |
-        cd ${{ env.REPO_OWNER }}/sample_weather_microservice
-        if ls | grep .env; then
-          echo ".env file exists!"
-          cat .env
-        else
-          echo ".env file does not exist!"
-        fi
+        ls -a
+        cat .env
+    
+    # - name: Check if .env file was created and view its contents
+    #   run: |
+    #     cd ${{ env.REPO_OWNER }}/sample_weather_microservice
+    #     if ls | grep .env; then
+    #       echo ".env file exists!"
+    #       cat .env
+    #     else
+    #       echo ".env file does not exist!"
+    #     fi
 
-    - name: Install dependencies and start back_end
-      run: |
-        cd ${{ env.REPO_OWNER }}/sample_weather_microservice
-        npm ci
-        npm run dev &
-        curl -f http://127.0.0.1:3000/about
-      env:
-        CI: true
+    # - name: Install dependencies and start front_end
+    #   run: |
+    #     cd ${{ env.REPO_OWNER }}/sample_web_app
+    #     npm ci
+    #     npm run dev &
+    #   env:
+    #     CI: true
+
+    # - name: Install dependencies and start back_end
+    #   run: |
+    #     cd ${{ env.REPO_OWNER }}/sample_weather_microservice
+    #     npm ci
+    #     npm run dev
+    #     # curl -f http://127.0.0.1:3000/about
+    #   env:
+    #     CI: true
 
         # npm run build
 
@@ -93,3 +86,5 @@ jobs:
         # cd ../microservice3
         # npm ci
         # npm run dev &
+
+        #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

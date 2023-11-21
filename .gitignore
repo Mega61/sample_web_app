@@ -34,3 +34,5 @@ test.env
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+my.secrets
