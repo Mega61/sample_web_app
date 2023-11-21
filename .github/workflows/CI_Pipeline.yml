@@ -42,17 +42,20 @@ jobs:
 
     - name: Setup .env for microservice_1
       run: |
-        echo "${{ secrets.ENV_FILE }}" > ${{ env.REPO_OWNER }}/sample_weather_microservice/.env
+        echo "${{ secrets.ENV_FILE }}" > .env
     
-    - name: Check if .env file was created and view its contents
-      run: |
-        cd ${{ env.REPO_OWNER }}/sample_weather_microservice
-        if ls | grep .env; then
-          echo ".env file exists!"
-          cat .env
-        else
-          echo ".env file does not exist!"
-        fi
+    - name: Display the contents of the .env file
+      run: cat .env
+
+    # - name: Check if .env file was created and view its contents
+    #   run: |
+    #     cd ${{ env.REPO_OWNER }}/sample_weather_microservice
+    #     if ls | grep .env; then
+    #       echo ".env file exists!"
+    #       cat .env
+    #     else
+    #       echo ".env file does not exist!"
+    #     fi
 
     # - name: Install dependencies and start front_end
     #   run: |
@@ -82,3 +85,5 @@ jobs:
         # npm run dev &
 
         #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
+
+        #echo "${{ secrets.ENV_FILE }}" > ${{ env.REPO_OWNER }}/sample_weather_microservice/.env
