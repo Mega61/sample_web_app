@@ -42,7 +42,7 @@ jobs:
 
     - name: Setup .env for microservice_1
       run: |
-        # echo "${{ secrets.ENV_FILE }}" > ${{ env.REPO_OWNER }}/sample_weather_microservice/.env
+        echo "${{ secrets.ENV_FILE }}" > ${{ env.REPO_OWNER }}/sample_weather_microservice/.env
     
     - name: Check if .env file was created and view its contents
       run: |
