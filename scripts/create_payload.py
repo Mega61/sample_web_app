@@ -14,6 +14,5 @@ def create_payload(file_path):
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python create_payload.py <file_path>", file=sys.stderr)
-        print("Test")
         sys.exit(1)
     create_payload(sys.argv[1])
