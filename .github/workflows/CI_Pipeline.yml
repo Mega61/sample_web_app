@@ -68,7 +68,6 @@ jobs:
         cd ${{ env.REPO_OWNER }}/sample_weather_microservice
         npm ci
         npm run dev &
-        # curl -f http://127.0.0.1:3000/about
       env:
         CI: true
 
