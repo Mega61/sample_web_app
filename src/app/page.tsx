@@ -43,7 +43,6 @@ export default function Home() {
   return (
     <div className="container mx-auto p-4">
       <section className="bg-white p-6 rounded-lg shadow mt-4">
-        <p>Test 1</p>
         <h2 className="text-xl text-black font-semibold mb-4">Weather App</h2>
         <h3 className="text-lg text-black font-semibold">
           A basic Weather app microservice
