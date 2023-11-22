@@ -18,6 +18,7 @@ def calculate():
     global y
     x = x + 2
     y = y + 3
+    print(x)
     return x * y
 
 # Hardcoded file path
