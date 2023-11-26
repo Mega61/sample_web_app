@@ -88,7 +88,7 @@ jobs:
       uses: actions/upload-artifact@v2.2.0
       with:
         name: HtmlReport
-        path: tests_output/nightwatch-html-report/*.html
+        path: ${{ env.REPO_OWNER }}/sample_web_app_testing/tests_output/nightwatch-html-report/*.html
         retention-days: 1
 
 
