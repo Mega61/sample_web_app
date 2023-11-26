@@ -43,13 +43,22 @@ jobs:
     - name: Setup .env for microservice_1
       run: |
         echo "${{ secrets.ENV_FILE }}" > ${{ env.REPO_OWNER }}/sample_weather_microservice/.env
+        echo "${{ secrets.ENV_FILE2 }}" > ${{ env.REPO_OWNER }}/sample_location_microservice/.env
     
 
     - name: Check if .env file was created and view its contents
       run: |
         cd ${{ env.REPO_OWNER }}/sample_weather_microservice
         if ls | grep .env; then
-          echo ".env file exists!"
+          echo ".env file1 exists!"
+          cat .env
+        else
+          echo ".env file does not exist!"
+        fi
+
+        cd ${{ env.REPO_OWNER }}/sample_location_microservice
+        if ls | grep .env; then
+          echo ".env file2 exists!"
           cat .env
         else
           echo ".env file does not exist!"
