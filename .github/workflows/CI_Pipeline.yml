@@ -68,7 +68,7 @@ jobs:
       env:
         CI: true
 
-    - name: Install dependencies and start back_end 1
+    - name: Install dependencies and start back_end 2
       run: |
         cd ${{ env.REPO_OWNER }}/sample_location_microservice
         npm ci
@@ -80,6 +80,7 @@ jobs:
       run: |
         cd ${{ env.REPO_OWNER }}/sample_web_app_testing
         sudo apt-get install xvfb
+        npm ci
         xvfb-run --auto-servernum npm test
 
     - name: Upload HTML Report
