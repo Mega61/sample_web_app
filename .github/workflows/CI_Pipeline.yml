@@ -47,7 +47,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: mkdir -p screens logs
-    - run: sudo apt-get install xvfb
 
     - name: Setup .env for microservice_1
       run: |
@@ -80,6 +79,7 @@ jobs:
 
     - name: Run Nightwatch tests
       run: |
+        sudo apt-get install xvfb
         xvfb-run --auto-servernum npm test
 
     - name: Upload HTML Report
