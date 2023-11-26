@@ -35,10 +35,20 @@ jobs:
         repository: ${{ env.REPO_OWNER }}/sample_location_microservice
         path: ${{ env.REPO_OWNER }}/sample_location_microservice
 
+    - name: Checkout testing_repo
+      uses: actions/checkout@v2
+      with:
+        repository: ${{ env.REPO_OWNER }}/sample_web_app_testing
+        path: ${{ env.REPO_OWNER }}/sample_web_app_testing
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: mkdir -p screens logs
+    - run: sudo apt-get install xvfb
 
     - name: Setup .env for microservice_1
       run: |
@@ -69,16 +79,19 @@ jobs:
       env:
         CI: true
 
-        # npm run build
+    - name: Run Nightwatch tests
+      run: |
+        xvfb-run --auto-servernum npm test
 
-        # 
-        # cd ../microservice2
-        # npm ci
-        # npm run dev &
-        # cd ../microservice3
-        # npm ci
-        # npm run dev &
+    - name: Upload HTML Report
+      if: always()
+      uses: actions/upload-artifact@v2.2.0
+      with:
+        name: HtmlReport
+        path: tests_output/nightwatch-html-report/*.html
+        retention-days: 1
 
-        #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
+
+#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
 
         

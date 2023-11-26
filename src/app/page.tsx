@@ -14,7 +14,7 @@ export default function Home() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://127.0.0.1:3000/weather', {
+      const response = await axios.post('http://127.0.0.2:4000/weather', {
         cityName: cityName,
         unit: unit,
       });
@@ -29,7 +29,7 @@ export default function Home() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://127.0.0.2:4000/location', {
+      const response = await axios.post('http://127.0.0.3:5000/location', {
         lat: lat,
         lng: lng,
       });
@@ -77,6 +77,7 @@ export default function Home() {
           <button
             className="bg-red-500 text-white px-4 py-2 rounded-lg mt-2 hover:bg-green-600"
             type="submit"
+            id="weatherButton"
           >
             Submit
           </button>
