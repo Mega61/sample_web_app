@@ -45,27 +45,6 @@ jobs:
         echo "${{ secrets.ENV_FILE }}" > ${{ env.REPO_OWNER }}/sample_weather_microservice/.env
         echo "${{ secrets.ENV_FILE2 }}" > ${{ env.REPO_OWNER }}/sample_location_microservice/.env
     
-
-    - name: Check if .env file was created and view its contents
-      run: |
-        cd ${{ env.REPO_OWNER }}/sample_weather_microservice
-        if ls | grep .env; then
-          echo ".env file1 exists!"
-          cat .env
-        else
-          echo ".env file does not exist!"
-        fi
-
-    - name: Check if .env file was created and view its contents 2
-      run: |
-        cd ${{ env.REPO_OWNER }}/sample_location_microservice
-        if ls | grep .env; then
-          echo ".env file2 exists!"
-          cat .env
-        else
-          echo ".env file does not exist!"
-        fi
-
     - name: Install dependencies and start front_end
       run: |
         cd ${{ env.REPO_OWNER }}/sample_web_app
@@ -74,9 +53,17 @@ jobs:
       env:
         CI: true
 
-    - name: Install dependencies and start back_end
+    - name: Install dependencies and start back_end 1
       run: |
         cd ${{ env.REPO_OWNER }}/sample_weather_microservice
+        npm ci
+        npm run dev &
+      env:
+        CI: true
+
+    - name: Install dependencies and start back_end 1
+      run: |
+        cd ${{ env.REPO_OWNER }}/sample_location_microservice
         npm ci
         npm run dev &
       env:
